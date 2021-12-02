@@ -18,20 +18,21 @@ class Day1 : Day<List<Int>, Int, Int> {
         return numberOfIncreases(input)
     }
 
-    fun numberOfIncreases(ints: List<Int>): Int =
-        ints.fold(Pair(ints.first(), 0)) { acc: Pair<Int, Int>, i: Int ->
-            Pair(
-                i,
-                if (acc.first < i) acc.second + 1 else acc.second
-            )
-        }.second
+    fun numberOfIncreases(ints: List<Int>): Int {
+        var counter = 0
+        for (i in (1 until ints.size)) {
+            if (ints[i] > ints[i - 1])
+                counter++
+        }
+        return counter
+    }
 
     override fun part2(input: List<Int>): Int {
         return numberOfWindowIncreases(input, 3)
     }
 
     fun numberOfWindowIncreases(ints: List<Int>, size: Int): Int {
-        return numberOfIncreases( ints.windowed(size, 1).map { it.sum() })
+        return numberOfIncreases(ints.windowed(size, 1).map { it.sum() })
     }
 }
 
