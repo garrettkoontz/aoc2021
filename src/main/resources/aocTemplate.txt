@@ -1,0 +1,26 @@
+import com.k00ntz.aoc.utils.Day
+import com.k00ntz.aoc.utils.measureAndPrintTime
+import java.util.*
+
+class Day$NUMBER$: Day<$INPUT$,$OUTPUT1$,$OUTPUT2$> {
+    override fun run() {
+        val inputFile =
+            $PARSETYPE$("${this.javaClass.simpleName.lowercase(Locale.getDefault())}.txt") { $PARSEMETHOD$ }
+
+        measureAndPrintTime { print(part1(inputFile)) }
+        measureAndPrintTime { print(part2(inputFile)) }
+    }
+    override fun part1(input: Int): Int {
+        return super.part1(input)
+    }
+
+    override fun part2(input: Int): Int {
+        return super.part2(input)
+    }
+
+}
+
+fun main() {
+    println("Day $NUMBER$")
+    Day$NUMBER$().run()
+}
