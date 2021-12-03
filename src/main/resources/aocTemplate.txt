@@ -10,11 +10,11 @@ class Day$NUMBER$: Day<$INPUT$,$OUTPUT1$,$OUTPUT2$> {
         measureAndPrintTime { print(part1(inputFile)) }
         measureAndPrintTime { print(part2(inputFile)) }
     }
-    override fun part1(input: $INPUT$): Int {
+    override fun part1(input: $INPUT$): $OUTPUT1$ {
         return super.part1(input)
     }
 
-    override fun part2(input: $INPUT$): Int {
+    override fun part2(input: $INPUT$): $OUTPUT2$ {
         return super.part2(input)
     }
 
