@@ -32,17 +32,17 @@ class Day3 : Day<List<String>, Int, Int> {
         return output
     }
 
-    fun mostCommonBitAt(binaryStrings: List<String>, position: Int): Char {
+    private fun mostCommonBitAt(binaryStrings: List<String>, position: Int): Char {
         if(binaryStrings.size == 1) return binaryStrings[0][position]
         val (ones, zeros) = partitionBits(binaryStrings, position)
         return if (ones.size < zeros.size) '0' else '1'
     }
 
-    fun partitionBits(binaryStrings: List<String>, position: Int): Pair<List<Char>, List<Char>> {
+    private fun partitionBits(binaryStrings: List<String>, position: Int): Pair<List<Char>, List<Char>> {
         return binaryStrings.map { it[position] }.partition { it == '1' }
     }
 
-    fun leastCommonBitAt(binaryStrings: List<String>, position: Int): Char {
+    private fun leastCommonBitAt(binaryStrings: List<String>, position: Int): Char {
         if(binaryStrings.size == 1) return binaryStrings[0][position]
         val (ones, zeros) = partitionBits(binaryStrings, position)
         return if (ones.size < zeros.size) '1' else '0'
@@ -53,7 +53,7 @@ class Day3 : Day<List<String>, Int, Int> {
         return (oxygen.toInt(2) * co2.toInt(2))
     }
 
-    fun findOxygenAndCO2(binaryStrings: List<String>): Pair<String, String> {
+    private fun findOxygenAndCO2(binaryStrings: List<String>): Pair<String, String> {
         var oxygen = ""
         var oxyStrings = binaryStrings
         var co2 = ""
