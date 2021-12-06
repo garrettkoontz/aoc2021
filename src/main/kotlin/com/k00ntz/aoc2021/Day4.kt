@@ -11,7 +11,7 @@ class Day4 : Day<Day4.BingoInput, Int, Int> {
     data class BingoInput(
         val draws: List<Int>, val boards: List<Board>
     ) {
-        private val numberMap = boards.flatMap { it.flatten() }.groupBy { it.number }
+        private val numberMap: Map<Int, List<BingoSlot>> = boards.flatMap { it.flatten() }.groupBy { it.number }
         private val boardSize = boards.first().first().size
 
         companion object {
