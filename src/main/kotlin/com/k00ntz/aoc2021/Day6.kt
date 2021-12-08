@@ -5,24 +5,24 @@ import com.k00ntz.aoc.utils.measureAndPrintTime
 import com.k00ntz.aoc.utils.parseLine
 import java.util.*
 
-class Day6 : Day<List<Int>, Int, Long> {
+class Day6 : Day<Map<Int, Long>, Int, Long> {
     override fun run() {
         val inputFile =
             parseLine("${this.javaClass.simpleName.lowercase(Locale.getDefault())}.txt") {
                 it.split(",").map { it.toInt() }
             }
-
-        measureAndPrintTime { print(part1(inputFile)) }
-        measureAndPrintTime { print(part2(inputFile)) }
+        val mapInput = inputFile.groupBy { it }.mapValues { (_, v) -> v.size.toLong() }
+        measureAndPrintTime { print(part1(mapInput)) }
+        measureAndPrintTime { print(part2(mapInput)) }
     }
 
-    override fun part1(input: List<Int>): Int {
-        return runTicks(input.groupBy { it }.mapValues { (_, v) -> v.size.toLong() },
-            80
+    override fun part1(input: Map<Int, Long>): Int {
+        return runTicks(
+            input, 80
         ).entries.sumOf { it.value.toInt() }
     }
 
-    fun tick(input: Map<Int, Long>): Map<Int, Long> {
+    private fun tick(input: Map<Int, Long>): Map<Int, Long> {
         val initMap: MutableMap<Int, Long> =
             (0..7).map { Pair(it, input.getOrDefault(it + 1, 0)) }.associate { it }.toMutableMap()
         initMap[8] = input.getOrDefault(0, 0)
@@ -35,9 +35,8 @@ class Day6 : Day<List<Int>, Int, Long> {
             tick(acc)
         }
 
-    override fun part2(input: List<Int>): Long {
-        val mapInput = input.groupBy { it }.mapValues { (_, v) -> v.size.toLong() }
-        return runTicks(mapInput, 256).entries.sumOf { it.value }
+    override fun part2(input: Map<Int, Long>): Long {
+        return runTicks(input, 256).entries.sumOf { it.value }
     }
 
 }
