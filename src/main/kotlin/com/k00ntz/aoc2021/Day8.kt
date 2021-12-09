@@ -35,7 +35,7 @@ class Day8 : Day<List<Day8.SignalOutput>, Int, Int> {
         }
 
         companion object {
-            fun String.sortCharacters(): String {
+            private fun String.sortCharacters(): String {
                 val c = this.toCharArray()
                 Arrays.sort(c)
                 return String(c)
