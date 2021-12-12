@@ -3,7 +3,7 @@ package com.k00ntz.aoc2021
 import com.k00ntz.aoc.utils.*
 import java.util.*
 
-class Day10 : Day<List<List<Int>>, Int, Int> {
+class Day11 : Day<List<List<Int>>, Int, Int> {
     override fun run() {
         val inputFile =
             parseFile("${this.javaClass.simpleName.lowercase(Locale.getDefault())}.txt") {
@@ -41,5 +41,5 @@ class Day10 : Day<List<List<Int>>, Int, Int> {
 
 fun main() {
     println("Day 10")
-    Day10().run()
+    Day11().run()
 }
