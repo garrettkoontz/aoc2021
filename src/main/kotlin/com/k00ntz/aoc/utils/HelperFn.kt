@@ -17,6 +17,9 @@ fun Pair<Int, Int>.sum() =
 fun List<CharArray>.getPoint(pt: Point): Char =
     this[pt.y()][pt.x()]
 
+fun <T> List<List<T>>.getPoint(pt: Point): T =
+    this[pt.y()][pt.x()]
+
 fun List<CharArray>.getPointOrNull(pt: Point): Char? {
     if (pt.y() < 0 || pt.y() >= this.size) return null
     if (pt.x() < 0 || pt.x() >= this[pt.y()].size) return null

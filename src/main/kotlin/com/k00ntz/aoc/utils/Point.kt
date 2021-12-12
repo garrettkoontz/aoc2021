@@ -34,7 +34,20 @@ fun Point.validCrossNeighbors(map: List<CharArray>, matcher: (Char) -> Boolean =
         }
         .toSet()
 
+@JvmName("validAroundNeighborsChars")
 fun Point.validAroundNeighbors(map: List<CharArray>, matcher: (Char) -> Boolean = { true }): Set<Point> =
+    setOf(
+        this + Point(0, 1), this + Point(0, -1), this + Point(1, 0), this + Point(-1, 0),
+        this + Point(1, 1), this + Point(1, -1), this + Point(-1, 1), this + Point(-1, -1)
+    )
+        .filter {
+            it.y() >= 0 && it.y() < map.size
+                    && it.x() >= 0 && it.x() < map[it.y()].size
+                    && matcher(map.getPoint(it))
+        }
+        .toSet()
+
+fun <T> Point.validAroundNeighbors(map: List<List<T>>, matcher: (T) -> Boolean = { true }): Set<Point> =
     setOf(
         this + Point(0, 1), this + Point(0, -1), this + Point(1, 0), this + Point(-1, 0),
         this + Point(1, 1), this + Point(1, -1), this + Point(-1, 1), this + Point(-1, -1)
