@@ -24,4 +24,9 @@ internal class Day15Test {
     fun part1() {
         assertEquals(40, day15.part1(input))
     }
+
+    @Test
+    fun part2() {
+        assertEquals(315, day15.part2(input))
+    }
 }

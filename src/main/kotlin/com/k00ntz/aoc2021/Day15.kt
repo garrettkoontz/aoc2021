@@ -55,12 +55,54 @@ class Day15 : Day<List<List<Int>>, Int, Int> {
                 val minNeighborValue = it.validCrossNeighbors(grid).minOf { pathGrid.getPoint(it) }
                 pathGrid.setPoint(
                     it,
-                    min(pathGrid.getPoint(it), grid.getPoint(it) + minNeighborValue))
+                    min(pathGrid.getPoint(it), grid.getPoint(it) + minNeighborValue)
+                )
             }
             pointList = pointList.flatMap { it.validBackNeighbors(grid) }.toSet()
         }
 
-        return Point(0,0).validForwardNeighbors(grid).minOf { pathGrid.getPoint(it) }
+        return Point(0, 0).validForwardNeighbors(grid).minOf { pathGrid.getPoint(it) }
+    }
+
+    fun getBestPathValueScaled(scaledGrid: ScaledGrid): Int {
+        val pathGrid: MutableList<MutableList<Int>> =
+            (0 until scaledGrid.yMax * scaledGrid.maxScale).map {
+                (0 until scaledGrid.xMax * scaledGrid.maxScale).map { 0 }.toMutableList()
+            }.toMutableList()
+        val endPoint = Point(scaledGrid.xMax * scaledGrid.maxScale - 1, scaledGrid.yMax * scaledGrid.maxScale - 1)
+        pathGrid.setPoint(endPoint, scaledGrid.getPoint(endPoint))
+        var pointList = endPoint.validBackNeighbors(pathGrid)
+        while (pointList.isNotEmpty()) {
+            pointList.forEach {
+                pathGrid.setPoint(
+                    it,
+                    scaledGrid.getPoint(it) + it.validForwardNeighbors(pathGrid).minOf { pathGrid.getPoint(it) })
+            }
+            pointList = pointList.flatMap { it.validBackNeighbors(pathGrid) }.toSet()
+        }
+        repeat(10) {
+            optimizePathGrid(endPoint, pathGrid, scaledGrid)
+        }
+
+        return Point(0, 0).validForwardNeighbors(pathGrid).minOf { pathGrid.getPoint(it) }
+    }
+
+    private fun optimizePathGrid(
+        endPoint: Point,
+        pathGrid: MutableList<MutableList<Int>>,
+        scaledGrid: ScaledGrid
+    ) {
+        var pointList1 = endPoint.validBackNeighbors(pathGrid)
+        while (pointList1.isNotEmpty()) {
+            pointList1.forEach {
+                val minNeighborValue = it.validCrossNeighbors(pathGrid).minOf { pathGrid.getPoint(it) }
+                pathGrid.setPoint(
+                    it,
+                    min(pathGrid.getPoint(it), scaledGrid.getPoint(it) + minNeighborValue)
+                )
+            }
+            pointList1 = pointList1.flatMap { it.validBackNeighbors(pathGrid) }.toSet()
+        }
     }
 
     override fun part1(input: List<List<Int>>): Int {
@@ -68,7 +110,27 @@ class Day15 : Day<List<List<Int>>, Int, Int> {
     }
 
     override fun part2(input: List<List<Int>>): Int {
-        return super.part2(input)
+        val grid = ScaledGrid(input)
+        return getBestPathValueScaled(grid)
+    }
+
+
+    class ScaledGrid(val grid: List<List<Int>>, val maxScale: Int = 5) {
+        val xMax = grid.first().size
+        val yMax = grid.size
+
+        fun getPoint(pt: Point): Int {
+            val xScale = pt.x() / xMax
+            val yScale = pt.y() / yMax
+            if (xScale > maxScale || yScale > maxScale) throw IndexOutOfBoundsException()
+            val origPoint = Point(pt.x() % xMax, pt.y() % yMax)
+            val value: Int = grid.getPoint(origPoint)
+            return value.plusMod(xScale + yScale)
+        }
+
+        fun Int.plusMod(i: Int, max: Int = 9) = (this + i).let { n ->
+            if (n > max) n - max else n
+        }
     }
 
 }
@@ -78,4 +140,4 @@ fun main() {
     Day15().run()
 }
 
-//597 too high
+//2920 too high
