@@ -40,9 +40,9 @@ class Day11 : Day<List<List<Int>>, Int, Int> {
             val pt = points.removeFirst()
             if (up1Grid.getPoint(pt) > 9) {
                 val neighbors = pt.validAroundNeighbors(up1Grid) { it != 0 }
-                up1Grid.setPoint(pt) { 0 }
+                up1Grid.setPoint(pt, 0)
                 neighbors.forEach {
-                    up1Grid.setPoint(it) { i: Int ->
+                    up1Grid.setPointFn(it) { i: Int ->
                         i + 1
                     }
                 }
@@ -67,10 +67,6 @@ class Day11 : Day<List<List<Int>>, Int, Int> {
         return i
     }
 
-}
-
-private fun <E> MutableList<MutableList<E>>.setPoint(pt: Point, fn: (E) -> E) {
-    this[pt.y()][pt.x()] = fn(this[pt.y()][pt.x()])
 }
 
 fun main() {

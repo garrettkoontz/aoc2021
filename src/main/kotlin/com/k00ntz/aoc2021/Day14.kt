@@ -75,12 +75,12 @@ class Day14 : Day<Day14.PolymerInput, Int, Long> {
     }
 
     override fun part1(input: PolymerInput): Int {
-        val polymer = (0 until 10).fold(input.startString) { acc: String, _: Int ->
-            apply(acc, input.rules)
+        val polymer = input.toPolymer()
+        val chainedPolymer = (0 until 10).fold(polymer) { acc, _ ->
+            acc.next()
         }
-
-        val sizes = polymer.toCharArray().groupBy { it }.mapValues { it.value.size }
-        return sizes.maxOf { it.value } - sizes.minOf { it.value }
+        val counts = chainedPolymer.counts()
+        return (counts.maxOf { it.value } - counts.minOf { it.value }).toInt()
     }
 
     override fun part2(input: PolymerInput): Long {

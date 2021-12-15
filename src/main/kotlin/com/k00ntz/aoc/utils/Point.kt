@@ -25,6 +25,42 @@ fun Point.manhattanDistanceTo(point: Point): Int {
     return abs(this.x() - point.x()) + abs(this.y() - point.y())
 }
 
+fun <E> MutableList<MutableList<E>>.setPoint(pt: Point, e: E) {
+    this[pt.y()][pt.x()] = e
+}
+
+fun <E> MutableList<MutableList<E>>.setPointFn(pt: Point, fn: (E) -> E) {
+    this[pt.y()][pt.x()] = fn(this[pt.y()][pt.x()])
+}
+
+fun <T> Point.validBackNeighbors(map: List<List<T>>, matcher: (T) -> Boolean = { true }): Set<Point> =
+    setOf(this + Point(0, -1), this + Point(-1, 0))
+        .filter {
+            it.y() >= 0 && it.y() < map.size
+                    && it.x() >= 0 && it.x() < map[it.y()].size
+                    && matcher(map.getPoint(it))
+        }
+        .toSet()
+
+fun <T> Point.validForwardNeighbors(map: List<List<T>>, matcher: (T) -> Boolean = { true }): Set<Point> =
+    setOf(this + Point(0, 1), this + Point(1, 0))
+        .filter {
+            it.y() >= 0 && it.y() < map.size
+                    && it.x() >= 0 && it.x() < map[it.y()].size
+                    && matcher(map.getPoint(it))
+        }
+        .toSet()
+
+fun <T> Point.validCrossNeighbors(map: List<List<T>>, matcher: (T) -> Boolean = { true }): Set<Point> =
+    setOf(this + Point(0, 1), this + Point(0, -1), this + Point(1, 0), this + Point(-1, 0))
+        .filter {
+            it.y() >= 0 && it.y() < map.size
+                    && it.x() >= 0 && it.x() < map[it.y()].size
+                    && matcher(map.getPoint(it))
+        }
+        .toSet()
+
+@JvmName("validCrossNeighborsChars")
 fun Point.validCrossNeighbors(map: List<CharArray>, matcher: (Char) -> Boolean = { true }): Set<Point> =
     setOf(this + Point(0, 1), this + Point(0, -1), this + Point(1, 0), this + Point(-1, 0))
         .filter {
