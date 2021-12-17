@@ -106,7 +106,7 @@ class Day16 : Day<String, Int, Long> {
             6 -> LT(version, packets)
             7 -> EQ(version, packets)
             else -> {
-                throw RuntimeException("unknown type ${typeId}")
+                throw RuntimeException("unknown type $typeId")
             }
         }
 
