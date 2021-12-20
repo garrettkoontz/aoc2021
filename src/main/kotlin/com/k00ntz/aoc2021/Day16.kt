@@ -114,10 +114,10 @@ class Day16 : Day<String, Int, Long> {
         val version = str.substring(0, 3).toInt(2)
         val typeId = str.substring(3, 6).toInt(2)
         if (typeId == 4) {
-            val (value, restIdx) = parseLiteralValue(str.substring(6)) // add 6 to restId to get back to the point in this string.
+            val (value, _) = parseLiteralValue(str.substring(6)) // add 6 to restId to get back to the point in this string.
             return LiteralValue(version, value)
         } else {
-            val (value, restIdx) = parseOperator(version, typeId, str.substring(6))
+            val (value, _) = parseOperator(version, typeId, str.substring(6))
             return value
         }
     }
